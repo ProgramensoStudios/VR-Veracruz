@@ -26,6 +26,9 @@ public class Enemy : MonoBehaviour
     
     private Animator _animator;
     private bool _isDead = false;
+    
+    // Events
+    public static event Action OnDeath;
 
     private void Awake()
     {
@@ -192,6 +195,8 @@ public class Enemy : MonoBehaviour
         {
             Instantiate(deathParticles,transform.position,deathParticles.transform.rotation);
         }
+        
+        OnDeath?.Invoke();
 
         // Esperar EXTRA después de morir (cadáver en el suelo)
         yield return new WaitForSeconds(destroyDelayAfterDeath);
