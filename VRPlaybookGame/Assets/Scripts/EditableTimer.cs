@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement;
 
 public class EditableTimer : MonoBehaviour
 {
@@ -12,12 +13,13 @@ public class EditableTimer : MonoBehaviour
     [Tooltip("Evento que se dispara cuando el temporizador termina.")]
     public static Action onTimerEnd;
 
-    //[SerializeField] private Canvas endGame;
+    [SerializeField] private Canvas endGame;
 
     private float remainingTime;
     private bool isRunning = false;
 
     [SerializeField] private TextMeshProUGUI tmp;
+    [SerializeField] private ContinuousMoveProvider _continuousMoveProvider;
 
     void Start()
     {
@@ -61,8 +63,9 @@ public class EditableTimer : MonoBehaviour
 
     public void EndTime()
     {
-       // endGame.gameObject.SetActive(true);
-       // endGame.gameObject.transform.SetParent(gameObject.transform);
+       endGame.gameObject.SetActive(true);
+       _continuousMoveProvider.moveSpeed = 0;
+       //endGame.gameObject.transform.SetParent(gameObject.transform);
     }
     
     public string ConvertirATiempo(float tiempoEnSegundos)
