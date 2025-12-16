@@ -11,16 +11,20 @@ public class PlayerActions : MonoBehaviour
     private InputData _inputData;
     private float _lastShootTime;
 
+    private void Start()
+    {
+        _inputData = GetComponent<InputData>();
+    }
+
     private void Update()
     {
-        if (!_inputData._rightController.TryGetFeatureValue(
-                CommonUsages.deviceAngularAcceleration, out Vector3 angularAcceleration)) return;
-        float shakeStrength = angularAcceleration.magnitude;
-
-        if (shakeStrength > shakeThreshold && Time.time > _lastShootTime)
+        if (_inputData._rightController.TryGetFeatureValue(CommonUsages.triggerButton, out bool trigger))
         {
-            Shoot();
-            _lastShootTime = Time.time + shootCooldown;
+            if (trigger && Time.time > _lastShootTime)
+            {
+                Shoot();
+                _lastShootTime = Time.time + shootCooldown;
+            }
         }
     }
 

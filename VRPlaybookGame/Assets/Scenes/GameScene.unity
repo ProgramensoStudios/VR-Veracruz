@@ -114720,6 +114720,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 4778211696441940833, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_SnapTurn
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5167925059111895691, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -153131,7 +153135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bc864a56d0fd874797f23afc2a5c1c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerDuration: 5
+  timerDuration: 500
   endGame: {fileID: 1241833723}
   tmp: {fileID: 1592505647}
   _continuousMoveProvider: {fileID: 918691942}
