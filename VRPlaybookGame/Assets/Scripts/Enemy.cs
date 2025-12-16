@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     private Transform _currentTarget;
     [SerializeField] private float detectionRange = 20f;
     [SerializeField] private ParticleSystem deathParticles;
+    [Header("Vida")] [SerializeField] private int maxHealth = 100;
     
     // --- INTERNAS ---
     private NavMeshAgent _agent;
@@ -22,6 +23,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float investigateDuration = 5f;
     private Vector3 _investigatePosition;
     [SerializeField] private float destroyDelayAfterDeath = .5f;
+    
+    private int _currentHealth;
 
     
     private Animator _animator;
@@ -34,6 +37,7 @@ public class Enemy : MonoBehaviour
     {
         _agent = GetComponent<NavMeshAgent>();  
         _animator = GetComponent<Animator>();
+        _currentHealth = maxHealth;
         
     }
 
@@ -152,11 +156,21 @@ public class Enemy : MonoBehaviour
             _agent.SetDestination(_patrolTarget.position);
         }
     }
+    
 
-    private void OnTriggerEnter(Collider other)
+    public void TakeDamage(int amount)
     {
-        if (!other.CompareTag("Weapon")) return;
-        Die();
+        _currentHealth -= amount;
+        // Activamos modo investigación
+        _investigatePosition = player.position; // Guardamos de dónde vino el ataque
+        _isInvestigating = true;
+        _investigateTimer = investigateDuration;
+        _currentTarget = null;
+
+        if (_currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
     private void Die()
@@ -195,12 +209,9 @@ public class Enemy : MonoBehaviour
         {
             Instantiate(deathParticles,transform.position,deathParticles.transform.rotation);
         }
-        
         OnDeath?.Invoke();
-
         // Esperar EXTRA después de morir (cadáver en el suelo)
         yield return new WaitForSeconds(destroyDelayAfterDeath);
-
         Destroy(gameObject);
     }
 

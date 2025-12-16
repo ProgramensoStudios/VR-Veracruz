@@ -20,6 +20,6 @@ public class UIManager : MonoBehaviour
     private void AddCounter()
     {
         _enemiesKilled++;
-        countText.text = $"Kills: {_enemiesKilled}";
+        countText.text = $"Emociones transformadas: {_enemiesKilled}";
     }
 }
