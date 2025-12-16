@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     private Transform _currentTarget;
     [SerializeField] private float detectionRange = 20f;
+    [SerializeField] private ParticleSystem deathParticles;
     
     // --- INTERNAS ---
     private NavMeshAgent _agent;
@@ -20,11 +21,14 @@ public class Enemy : MonoBehaviour
     private float _investigateTimer = 0f;
     [SerializeField] private float investigateDuration = 5f;
     private Vector3 _investigatePosition;
-    [SerializeField] private float destroyDelayAfterDeath = 1f;
+    [SerializeField] private float destroyDelayAfterDeath = .5f;
 
     
     private Animator _animator;
     private bool _isDead = false;
+    
+    // Events
+    public static event Action OnDeath;
 
     private void Awake()
     {
@@ -162,16 +166,16 @@ public class Enemy : MonoBehaviour
 
         Debug.Log("Dead");
 
-        // Detener movimiento
+        // Stop movement
         _agent.isStopped = true;
         _agent.enabled = false;
 
-        // Activar animación de muerte
+        // Play death animation
         _animator.SetBool("isDead", true);
 
-        // Empezar espera
         StartCoroutine(WaitForDeathAnimation());
     }
+
 
     private IEnumerator WaitForDeathAnimation()
     {
@@ -186,6 +190,13 @@ public class Enemy : MonoBehaviour
         {
             yield return null;
         }
+        
+        if (deathParticles != null)
+        {
+            Instantiate(deathParticles,transform.position,deathParticles.transform.rotation);
+        }
+        
+        OnDeath?.Invoke();
 
         // Esperar EXTRA después de morir (cadáver en el suelo)
         yield return new WaitForSeconds(destroyDelayAfterDeath);
