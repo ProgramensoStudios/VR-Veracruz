@@ -141346,6 +141346,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1481441954}
   - component: {fileID: 1481441953}
+  - component: {fileID: 1481441955}
   m_Layer: 0
   m_Name: Global Volume
   m_TagString: Untagged
@@ -141385,6 +141386,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1586498991}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1481441955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481441952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e24a21499e3a674a9e1d7c789c27037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vol: {fileID: 1481441953}
 --- !u!1001 &1482257432
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -153312,7 +153326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bc864a56d0fd874797f23afc2a5c1c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerDuration: 500
+  timerDuration: 5
   endGame: {fileID: 1241833723}
   tmp: {fileID: 1592505647}
   _continuousMoveProvider: {fileID: 918691942}
