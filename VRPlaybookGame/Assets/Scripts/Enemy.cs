@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float investigateDuration = 5f;
     private Vector3 _investigatePosition;
     [SerializeField] private float destroyDelayAfterDeath = .5f;
+
+    public static Action onDeath;
     
     private int _currentHealth;
 
@@ -75,7 +77,6 @@ public class Enemy : MonoBehaviour
     private void PursuePlayer()
     {
         if (_currentTarget == null) return;
-
         _agent.SetDestination(_currentTarget.position);
 
         Vector3 dir = (_currentTarget.position - transform.position);
@@ -96,7 +97,6 @@ public class Enemy : MonoBehaviour
     private void Investigate()
     {
         _investigateTimer -= Time.deltaTime;
-
         if (_investigateTimer <= 0f)
         {
             _isInvestigating = false;
@@ -176,6 +176,7 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         if (_isDead) return;
+        onDeath.Invoke();
         _isDead = true;
 
         Debug.Log("Dead");

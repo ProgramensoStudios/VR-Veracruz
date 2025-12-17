@@ -17,8 +17,11 @@ public class PlayerActions : MonoBehaviour
     private bool isSwinging;
     private float peakVelocity;
 
+    private AudioSource _audioSource;
+
     private void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         _inputData = GetComponent<InputData>();
     }
 
@@ -61,5 +64,6 @@ public class PlayerActions : MonoBehaviour
     private void Shoot()
     {
         pool.AskForObject(shootPos);
+        _audioSource.Play();
     }
 }
