@@ -68384,6 +68384,7 @@ GameObject:
   - component: {fileID: 749308448}
   - component: {fileID: 749308449}
   - component: {fileID: 749308450}
+  - component: {fileID: 749308451}
   m_Layer: 0
   m_Name: MANAGERS
   m_TagString: Untagged
@@ -68547,6 +68548,21 @@ MonoBehaviour:
   music:
   - {fileID: 8300000, guid: 3d8f711b463b18e4ea33d423ae084a9a, type: 3}
   - {fileID: 8300000, guid: 35d4681a9725d764a9ff081280954a53, type: 3}
+--- !u!114 &749308451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749308445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e24a21499e3a674a9e1d7c789c27037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  globalVolume: {fileID: 1481441953}
+  targetLift: {x: 0.98, y: 1.01, z: 1, w: 0}
+  lerpDuration: 1
 --- !u!1001 &749352310
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -141643,7 +141659,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1481441954}
   - component: {fileID: 1481441953}
-  - component: {fileID: 1481441955}
   m_Layer: 0
   m_Name: Global Volume
   m_TagString: Untagged
@@ -141683,19 +141698,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1586498991}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1481441955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1481441952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e24a21499e3a674a9e1d7c789c27037, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vol: {fileID: 1481441953}
 --- !u!1001 &1482257432
 PrefabInstance:
   m_ObjectHideFlags: 0
