@@ -108,7 +108,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 1
+  moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -9940,6 +9940,11 @@ MonoBehaviour:
   speed: 20
   damage: 10
   lifetime: 3
+  detectionRadius: 3
+  rotateSpeed: 10
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &3443379618363680513
 GameObject:
   m_ObjectHideFlags: 0
@@ -10046,7 +10051,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
