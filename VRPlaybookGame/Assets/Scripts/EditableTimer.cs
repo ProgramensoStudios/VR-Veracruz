@@ -8,6 +8,7 @@ public class EditableTimer : MonoBehaviour
     [Header("Configuraci�n del Timer")]
     [Tooltip("Duracion del temporizador en segundos.")]
     [SerializeField] private float timerDuration = 180f;
+    [SerializeField] private float timeAdded;
 
     [Header("Eventos del Timer")]
     [Tooltip("Evento que se dispara cuando el temporizador termina.")]
@@ -24,6 +25,16 @@ public class EditableTimer : MonoBehaviour
     void Start()
     {
         StartTimer();
+    }
+
+    private void OnEnable()
+    {
+        Collectable.onCollect += AddTime;
+    }
+
+    private void OnDisable()
+    {
+        Collectable.onCollect -= AddTime;
     }
 
     void Update()
@@ -66,6 +77,11 @@ public class EditableTimer : MonoBehaviour
        endGame.gameObject.SetActive(true);
        _continuousMoveProvider.moveSpeed = 0;
        //endGame.gameObject.transform.SetParent(gameObject.transform);
+    }
+
+    public void AddTime()
+    {
+        remainingTime += timeAdded;
     }
     
     public string ConvertirATiempo(float tiempoEnSegundos)
