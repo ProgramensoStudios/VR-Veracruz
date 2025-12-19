@@ -32,17 +32,23 @@ public class AudioManager : MonoBehaviour
 
     private void BattleMusic()
     {
-        StopFade();
+        if (mainAudio.clip != music[1])
+        {
+            StopFade();
 
-        mainAudio.volume = 1f;
-        mainAudio.clip = music[1];
-        mainAudio.Play();
+            mainAudio.volume = 1f;
+            mainAudio.clip = music[1];
+            mainAudio.Play();
+        }
     }
 
     private void RelaxMusic()
     {
-        StopFade();
-        fadeCoroutine = StartCoroutine(RelaxSequence());
+        if (mainAudio.clip != music[0])
+        {
+            StopFade();
+            fadeCoroutine = StartCoroutine(RelaxSequence());
+        }
     }
 
     private IEnumerator RelaxSequence()
