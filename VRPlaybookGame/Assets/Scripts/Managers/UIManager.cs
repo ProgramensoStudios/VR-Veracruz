@@ -1,9 +1,12 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class UIManager : MonoBehaviour
 {
+
+    [SerializeField] private Image[] visualCounter;
     private int _enemiesKilled = 0;
     [SerializeField] private TMP_Text countText;
 
@@ -19,7 +22,8 @@ public class UIManager : MonoBehaviour
 
     private void AddCounter()
     {
+        visualCounter[_enemiesKilled].enabled = true;
         _enemiesKilled++;
-        countText.text = $"Emociones transformadas: {_enemiesKilled}";
+        countText.text = _enemiesKilled.ToString();
     }
 }

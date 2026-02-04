@@ -1,7 +1,7 @@
 using UnityEngine;
-using TMPro;
 using System;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement;
+using UnityEngine.UI;
 
 public class EditableTimer : MonoBehaviour
 {
@@ -19,7 +19,7 @@ public class EditableTimer : MonoBehaviour
     private float remainingTime;
     private bool isRunning = false;
 
-    [SerializeField] private TextMeshProUGUI tmp;
+    [SerializeField] private Image image;
     [SerializeField] private ContinuousMoveProvider _continuousMoveProvider;
 
     void Start()
@@ -42,8 +42,7 @@ public class EditableTimer : MonoBehaviour
         if (isRunning)
         {
             remainingTime -= Time.deltaTime;
-            var remTime = ConvertirATiempo(remainingTime);
-            tmp.text = remTime.ToString();
+            ConvertirATiempo(remainingTime);
 
             if (remainingTime <= 0)
             {
@@ -84,11 +83,9 @@ public class EditableTimer : MonoBehaviour
         remainingTime += timeAdded;
     }
     
-    public string ConvertirATiempo(float tiempoEnSegundos)
+    public void ConvertirATiempo(float tiempoEnSegundos)
     {
-        int minutos = Mathf.FloorToInt(tiempoEnSegundos / 60f);
-        int segundos = Mathf.FloorToInt(tiempoEnSegundos % 60f);
+        image.fillAmount = tiempoEnSegundos/timerDuration;
     
-        return string.Format("{0:00}:{1:00}", minutos, segundos);
     }
 }
