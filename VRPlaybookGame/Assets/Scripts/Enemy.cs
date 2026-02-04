@@ -176,7 +176,6 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         if (_isDead) return;
-        onDeath.Invoke();
         _isDead = true;
 
         Debug.Log("Dead");
@@ -187,13 +186,16 @@ public class Enemy : MonoBehaviour
 
         // Play death animation
         _animator.SetBool("isDead", true);
-
+        
+        Debug.Log("AAAA");
+        
         StartCoroutine(WaitForDeathAnimation());
     }
 
 
     private IEnumerator WaitForDeathAnimation()
     {
+        //Debug.Log("CORRUTINA");
         // Esperar a que entre al estado de muerte
         while (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Death"))
         {
@@ -209,15 +211,14 @@ public class Enemy : MonoBehaviour
         if (deathParticles != null)
         {
             Instantiate(deathParticles,transform.position,deathParticles.transform.rotation);
+            //Debug.Log("PARTICULAS");
         }
         OnDeath?.Invoke();
         // Esperar EXTRA después de morir (cadáver en el suelo)
         yield return new WaitForSeconds(destroyDelayAfterDeath);
         Destroy(gameObject);
     }
-
-
-
+    
 
     private void OnDrawGizmosSelected()
     {
