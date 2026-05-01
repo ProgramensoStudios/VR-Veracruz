@@ -12,7 +12,8 @@ public class Enemy : MonoBehaviour
     private Transform _currentTarget;
     [SerializeField] private float detectionRange = 20f;
     [SerializeField] private ParticleSystem deathParticles;
-    [Header("Vida")] [SerializeField] private int maxHealth = 100;
+    [Header("Vida")][SerializeField] private int maxHealth = 100;
+    [SerializeField] private EnemyDetector enemyDetector;
     
     // --- INTERNAS ---
     private NavMeshAgent _agent;
@@ -28,7 +29,7 @@ public class Enemy : MonoBehaviour
     
     private int _currentHealth;
 
-    
+    private Collider _enemyCollider;
     private Animator _animator;
     private bool _isDead = false;
     
@@ -40,7 +41,7 @@ public class Enemy : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();  
         _animator = GetComponent<Animator>();
         _currentHealth = maxHealth;
-        
+        _enemyCollider = GetComponent<Collider>();
     }
 
     private void Start()
@@ -213,6 +214,8 @@ public class Enemy : MonoBehaviour
             Instantiate(deathParticles,transform.position,deathParticles.transform.rotation);
             //Debug.Log("PARTICULAS");
         }
+        enemyDetector.enemyInRange -= 1;
+        _enemyCollider.enabled = false;
         OnDeath?.Invoke();
         // Esperar EXTRA después de morir (cadáver en el suelo)
         yield return new WaitForSeconds(destroyDelayAfterDeath);

@@ -4,89 +4,77 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] private AudioSource mainAudio;
-    [SerializeField, Tooltip("0 = Relax, 1 = Battle")] private AudioClip[] music;
+    [SerializeField] private AudioClip relaxMusic;
+    [SerializeField] private AudioClip battleMusic;
     [SerializeField] private float delaySounds = 2f;
     [SerializeField] private float fadeSpeed = 1f;
 
+    private int enemiesDetecting = 0;
     private Coroutine fadeCoroutine;
 
     private void OnEnable()
     {
-        EnemyDetector.onEnemy += BattleMusic;
-        Enemy.onDeath += RelaxMusic;
+        EnemyDetector.onEnemyEnter += EnemyDetected;
+        EnemyDetector.onEnemyExit += EnemyLost;
+        Enemy.OnDeath += EnemyLost;
     }
 
     private void OnDisable()
     {
-        EnemyDetector.onEnemy -= BattleMusic;
-        Enemy.onDeath -= RelaxMusic;
+        EnemyDetector.onEnemyEnter -= EnemyDetected;
+        EnemyDetector.onEnemyExit -= EnemyLost;
+        Enemy.OnDeath -= EnemyLost;
     }
 
     private void Start()
     {
         mainAudio = GetComponent<AudioSource>();
+        mainAudio.clip = relaxMusic;
         mainAudio.volume = 1f;
-        mainAudio.clip = music[0];
         mainAudio.Play();
     }
 
-    private void BattleMusic()
+    void EnemyDetected()
     {
-        if (mainAudio.clip != music[1])
-        {
-            StopFade();
+        enemiesDetecting++;
 
-            mainAudio.volume = 1f;
-            mainAudio.clip = music[1];
-            mainAudio.Play();
-        }
+        if (enemiesDetecting == 1)
+            ChangeMusic(battleMusic);
     }
 
-    private void RelaxMusic()
+    void EnemyLost()
     {
-        if (mainAudio.clip != music[0])
-        {
-            StopFade();
-            fadeCoroutine = StartCoroutine(RelaxSequence());
-        }
+        enemiesDetecting = Mathf.Max(0, enemiesDetecting - 1);
+
+        if (enemiesDetecting == 0)
+            ChangeMusic(relaxMusic);
     }
 
-    private IEnumerator RelaxSequence()
+    void ChangeMusic(AudioClip newClip)
     {
-        // Fade out
-        yield return StartCoroutine(FadeVolume(0f));
+        if (mainAudio.clip == newClip) return;
 
-        // Espera
-        yield return new WaitForSeconds(delaySounds);
+        if (fadeCoroutine != null)
+            StopCoroutine(fadeCoroutine);
 
-        // Cambia música
-        mainAudio.clip = music[0];
-        mainAudio.Play();
-
-        // Fade in
-        yield return StartCoroutine(FadeVolume(1f));
+        fadeCoroutine = StartCoroutine(FadeAndSwitch(newClip));
     }
 
-    private IEnumerator FadeVolume(float targetVolume)
+    IEnumerator FadeAndSwitch(AudioClip newClip)
     {
-        while (!Mathf.Approximately(mainAudio.volume, targetVolume))
+        while (mainAudio.volume > 0.01f)
         {
-            mainAudio.volume = Mathf.MoveTowards(
-                mainAudio.volume,
-                targetVolume,
-                fadeSpeed * Time.deltaTime
-            );
-
+            mainAudio.volume -= fadeSpeed * Time.deltaTime;
             yield return null;
         }
-    }
 
-    private void StopFade()
-    {
-        if (fadeCoroutine != null)
+        mainAudio.clip = newClip;
+        mainAudio.Play();
+
+        while (mainAudio.volume < 1f)
         {
-            StopCoroutine(fadeCoroutine);
-            fadeCoroutine = null;
+            mainAudio.volume += fadeSpeed * Time.deltaTime;
+            yield return null;
         }
     }
 }
